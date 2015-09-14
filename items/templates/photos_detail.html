@@ -3,6 +3,6 @@
 {%block content %}
 <p><a href="{{ object.item.get_absolute_url }}">&laquo; Back to {{ object.item.name }} detail page </a>
 <h2> {{ object.item.name }} - {{ object.title }}</h2>
-<img src="{{ object.get_image_url }}" /> 
+<img src="{{ photo.get_image_url }}" /> 
 {%if object.caption %}<p>{{ object.caption }}</p>{% endif %}
 {% endblock %}

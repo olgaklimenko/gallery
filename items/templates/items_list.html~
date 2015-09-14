@@ -11,12 +11,13 @@
         <th>Sample Thumb</th>
         <th>Description</th>
     </tr>
-    {% for item in latest_item_list%}
+    {% for item in object_list%}
     <tr>
         <td><i>{{item.name}}</i></td>
         <td>
             {% if item.photo_set.count %}
-            <a href="{{ item.get_absolute_url }}"> 
+
+                <a href="{{ item.get_absolute_url }}"> 
                 <img src="{{item.photo_set.all.0.image.thumb_url }}"/>
             </a>
             {% else %}

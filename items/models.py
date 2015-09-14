@@ -13,7 +13,7 @@ class Item(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('item_detail', kwargs={'object_id':self.id})
+        return reverse('items:item_detail', kwargs={'object_id':self.id})
 
 class Photo(models.Model):
     item = models.ForeignKey(Item)
@@ -29,4 +29,4 @@ class Photo(models.Model):
     
     
     def get_absolute_url(self):
-        return reverse('photo_detail', kwargs={'object_id':self.id})
+        return reverse('items:photo_detail', kwargs={'object_id':self.id})

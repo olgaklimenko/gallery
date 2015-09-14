@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{object.name}}{%endblock%}
 {%block content %}
-<p><a href="{%url item_list %}">&laquo; Back to full listing</a></p>
-<h2>{{ object.name }}</h2>
-<p>{{ object.description }}</p>
+<p><a href="{%url 'items:item_list' %}">&laquo; Back to full listing</a></p>
+<h2>{{ item.name }}</h2>
+<p>{{ item.description }}</p>
 
 <h3>Photos</h3>
 <table>
