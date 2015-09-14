@@ -17,7 +17,7 @@
         <td><i>{{ photo.title }}</i></td>
         <td>
             <a href="{{ photo.get_absolute_url }}">
-                <img src="{{photo.get_image_thumb_url}}"/>
+            <img src="{{ photo.image.thumb_url }}"/>
             </a>
         </td>
         <td>{{photo.caption}}</td>

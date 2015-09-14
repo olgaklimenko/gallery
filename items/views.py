@@ -1,14 +1,16 @@
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views import generic
 from items.models import Item, Photo
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
+    model = Item
+    allow_empty=True
     template_name = 'index.html'
-    extra_context = {'full_item_list': Item.objects.all()}
+    #extra_context = {'full_item_list': Item.objects.all()}
     def get_queryset(self):
         return Item.objects.all()
+
 
 class ListView(generic.ListView):
     model=Item
@@ -17,9 +19,7 @@ class ListView(generic.ListView):
     #context_object_name = 'latest_item_list'
     def get_queryset(self):
         return Item.objects.all()
-    def head(self, *args, **kwargs):
-	items_list = self.get_queryset()
-	return HttpResponse(json.dumps({"success": True}), content_type="application/json")
+
 
 class ItemsDetailView(generic.DetailView):
     template_name='items_detail.html'
@@ -28,7 +28,7 @@ class ItemsDetailView(generic.DetailView):
     def get_queryset(self):
         return Item.objects.all()
     def get_object(self):
-        return get_object_or_404(Item, pk=1)
+        return get_object_or_404(Item, pk=self.kwargs['object_id'])
 
 
 class PhotosDetailView(generic.DetailView):
@@ -36,24 +36,6 @@ class PhotosDetailView(generic.DetailView):
     def get_queryset(self):
         return Photo.objects.all()
     def get_object(self):
-        return get_object_or_404(Photo, pk=1)
+        return get_object_or_404(Photo, pk=self.kwargs['object_id'])
 
-"""
-class ResultsView(generic.DetailView):
-    model = Item
-    template_name = 'items/results.html'
 
-def vote(request, item_id):
-    p = get_object_or_404(Item, pk=item_id)
-    try:
-        selected_photo= p.photo_set.get(pk=request.POST['photo'])
-    except (KeyError, Photo.DoesNotExist):
-        return render(request, 'items/detail.html', {
-            'photo':p,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_photo.votes +=1
-        selected_photo.save()
-        return HttpResponseRedirect(reverse('items:results', args=(p.id,)))
-"""

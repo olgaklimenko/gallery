@@ -2,20 +2,25 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 <h2>Welcome to the gallery!</h2>
+{%if item_list %}
 <table>
+    {% for item in item_list|slice:":2"%}
     <tr>
-    {% for item in full_item_list %}
+        <td><i>{{item.name}}</i></td>
         <td>
-            <a href="{{ item.get_absolute_url }}"><b>{{item.name}}</b></br>
             {% if item.photo_set.count %}
-                <img src={{ item.photo_set.all.0.image.thumb.url }}"/>
+                <a href="{{ item.get_absolute_url }}"> 
+                <img src="{{item.photo_set.all.0.image.thumb_url }}"/>
+            </a>
             {% else %}
-                <span>No photos</span>
+               ( No photos )
             {% endif %}
-                </a>
         </td>
-    {% endfor %}
     </tr>
+    {% endfor %}
 </table>
+{%else%}
+<p> No items</p>
+{%endif%}
 <p><a href="{% url 'items:item_list'%}">View the full list&raquo;</a></p>
 {% endblock %}

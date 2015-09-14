@@ -2,16 +2,16 @@
 {% block title %} Item List {%endblock%}
 {% block content %}
 
-
+<p><a href="{% url 'items:item_list'%}">&laquo; Back to main page </a></p>
 <h2>Items</h2>
-{%if object_list %}
+{%if item_list %}
 <table>
     <tr>
         <th>Name</th>
         <th>Sample Thumb</th>
         <th>Description</th>
     </tr>
-    {% for item in object_list%}
+    {% for item in item_list%}
     <tr>
         <td><i>{{item.name}}</i></td>
         <td>
@@ -31,4 +31,5 @@
 {%else%}
 <p> No items</p>
 {%endif%}
+
 {%endblock%}

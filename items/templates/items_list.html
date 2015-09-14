@@ -2,7 +2,7 @@
 {% block title %} Item List {%endblock%}
 {% block content %}
 
-
+<p><a href="{% url 'items:index'%}">&laquo; Back to main page </a></p>
 <h2>Items</h2>
 {%if item_list %}
 <table>
@@ -31,4 +31,5 @@
 {%else%}
 <p> No items</p>
 {%endif%}
+
 {%endblock%}

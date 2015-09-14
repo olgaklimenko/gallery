@@ -4,11 +4,14 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from items.models import Item, Photo
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
+    model = Item
+    allow_empty=True
     template_name = 'index.html'
-    extra_context = {'full_item_list': Item.objects.all()}
+    #extra_context = {'full_item_list': Item.objects.all()}
     def get_queryset(self):
         return Item.objects.all()
+
 
 class ListView(generic.ListView):
     model=Item
@@ -17,9 +20,7 @@ class ListView(generic.ListView):
     #context_object_name = 'latest_item_list'
     def get_queryset(self):
         return Item.objects.all()
-    def head(self, *args, **kwargs):
-	items_list = self.get_queryset()
-	return HttpResponse(json.dumps({"success": True}), content_type="application/json")
+
 
 class ItemsDetailView(generic.DetailView):
     template_name='items_detail.html'
@@ -27,14 +28,16 @@ class ItemsDetailView(generic.DetailView):
     
     def get_queryset(self):
         return Item.objects.all()
-    
+    def get_object(self):
+        return get_object_or_404(Item, pk=self.kwargs['object_id'])
+
 
 class PhotosDetailView(generic.DetailView):
     template_name='photos_detail.html'
     def get_queryset(self):
         return Photo.objects.all()
     def get_object(self):
-        return get_object_or_404(Photo, pk=1)
+        return get_object_or_404(Photo, pk=self.kwargs['object_id'])
 
 """
 class ResultsView(generic.DetailView):
