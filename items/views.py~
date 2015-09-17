@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.views import generic
 from items.models import Item, Photo
 
@@ -39,22 +39,11 @@ class PhotosDetailView(generic.DetailView):
     def get_object(self):
         return get_object_or_404(Photo, pk=self.kwargs['object_id'])
 
-"""
-class ResultsView(generic.DetailView):
-    model = Item
-    template_name = 'items/results.html'
-
-def vote(request, item_id):
-    p = get_object_or_404(Item, pk=item_id)
-    try:
-        selected_photo= p.photo_set.get(pk=request.POST['photo'])
-    except (KeyError, Photo.DoesNotExist):
-        return render(request, 'items/detail.html', {
-            'photo':p,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_photo.votes +=1
-        selected_photo.save()
-        return HttpResponseRedirect(reverse('items:results', args=(p.id,)))
-"""
+def change_rating(request):
+    #AJAX POST request
+    photo_id = request.POST['object_id']
+    delta = int(request.POST['delta'])
+    p = Photo.objects.get(id=photo_id)
+    p.votes += delta
+    p.save()
+    return HttpResponse(json.dumps({'new_rating': p.votes,}), mimetype='application/json')

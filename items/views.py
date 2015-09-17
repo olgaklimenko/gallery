@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.views import generic
 from items.models import Item, Photo
 
@@ -38,4 +39,11 @@ class PhotosDetailView(generic.DetailView):
     def get_object(self):
         return get_object_or_404(Photo, pk=self.kwargs['object_id'])
 
-
+def change_rating(request):
+    #AJAX POST request
+    photo_id = request.POST['photo_id']
+    delta = int(request.POST['delta'])
+    p = Photo.objects.get(id=photo_id)
+    p.votes += delta
+    p.save()
+    return HttpResponse(json.dumps({'new_rating': p.votes,}), mimetype='application/json')

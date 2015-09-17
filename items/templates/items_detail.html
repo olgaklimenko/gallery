@@ -11,6 +11,7 @@
         <th>Title</th>
         <th>Thumbnail</th>
         <th>Caption</th>
+        <th>Rating</th>
     </tr>
     {% for photo in object.photo_set.all %}
     <tr>
@@ -21,6 +22,12 @@
             </a>
         </td>
         <td>{{photo.caption}}</td>
+        <td>
+             <span class="rating">
+                 <span class="rating-plus" data-id="{{ photo.id }}">+</span>
+                 <span class="rating-value" data-id="{{ photo.id }}">{{ photo.votes }}</span>
+                 <span class="rating-minus" data-id="{{ photo.id }}"> - </span>
+             </span>
     </tr>
     {% endfor %}
 </table>

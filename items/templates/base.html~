@@ -9,9 +9,11 @@
             table {width: 100%;}
             table th {text-align: left;}
          </style>
+         <script src="{{ STATIC_ROOT }}js/jquery-1.11.3.min.js"></script>
+         <script src="{{ STATIC_ROOT }}js/main.js"></script>
      </head>
      <body>
          <h1> Gallery</h1>
-         {%block content %} {%endblock%}
+         {% block content %} {% endblock %}
      </body>
 </html>
