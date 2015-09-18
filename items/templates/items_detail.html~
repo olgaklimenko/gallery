@@ -13,22 +13,26 @@
         <th>Caption</th>
         <th>Rating</th>
     </tr>
-    {% for photo in object.photo_set.all %}
-    <tr>
-        <td><i>{{ photo.title }}</i></td>
-        <td>
-            <a href="{{ photo.get_absolute_url }}">
-            <img src="{{ photo.image.thumb_url }}"/>
-            </a>
-        </td>
-        <td>{{photo.caption}}</td>
-        <td>
-             <span class="rating">{%crsf token%}
-                 <span class="rating-plus" data-id="{{ photo.id }}">+</span>
-                 <span class="rating-value" data-id="{{ photo.id }}">{{ photo.votes }}</span>
-                 <span class="rating-minus" data-id="{{ photo.id }}"> - </span>
-             </span>
+    <form action="{% url 'items:change_rating' %}" method="post">
+        {% csrf_token %} 
+        {% for photo in object.photo_set.all %}
+        <tr>
+            <td><i>{{ photo.title }}</i></td>
+            <td>
+                <a href="{{ photo.get_absolute_url }}">
+                <img src="{{ photo.image.thumb_url }}"/>
+                </a>
+            </td>
+            <td>{{photo.caption}}</td>
+            <td>
+                <span class="rating">
+                     <span class="rating-plus" data-id="{{ photo.id }}">+</span>
+                     <span class="rating-value" data-id="{{ photo.id }}">{{ photo.votes }}</span>
+                     <span class="rating-minus" data-id="{{ photo.id }}"> - </span>
+                </span>
     </tr>
     {% endfor %}
+<input type="submit" value="Vote" />
 </table>
+</form>
 {% endblock %}

@@ -40,10 +40,12 @@ class PhotosDetailView(generic.DetailView):
         return get_object_or_404(Photo, pk=self.kwargs['object_id'])
 
 def change_rating(request):
-    #AJAX POST request
-    photo_id = request.POST['object_id']
-    delta = int(request.POST['delta'])
-    p = Photo.objects.get(id=photo_id)
+    #AJAX GET request
+    photo_id = request.GET['photo_id']
+    delta = int(request.GET['delta'])
+    p = Photo.objects.get(pk=photo_id)
     p.votes += delta
     p.save()
-    return HttpResponse(json.dumps({'new_rating': p.votes,}), mimetype='application/json')
+    return HttpResponse(json.dumps({
+            'new_rating': p.votes,
+        }), content_type="application/json")

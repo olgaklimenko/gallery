@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 function changeRating(delta, photo_id) {
-    $.post('/items/change_rating/', //отправляем post-запрос на сервер
+    $.get('/items/change_rating/', //отправляем get-запрос на сервер
         {
             'photo_id': photo_id,
             'delta': delta
